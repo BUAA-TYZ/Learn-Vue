@@ -13,6 +13,13 @@
     <h1>Hello Vue3!</h1>
     <h2>{{ name }}</h2>
     <a :href="baiduurl">跳转百度</a>
+    <!--  Vue 两种数据绑定的方式
+      1. 单向绑定
+      2. 双向绑定 数据不仅能从 data 流向页面 还可以从页面流向 data 
+        双向绑定一般应用在表单类元素上 在别的元素上不行且不合理
+    -->
+    单向数据绑定 <input type="text" :value="name" /><br />
+    双向数据绑定 <input type="text" v-model="name" /><br />
   </div>
 </template>
 
