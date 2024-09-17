@@ -1,39 +1,50 @@
 <!-- html -->
 <template>
   <!-- 
-    Vue 监视对象的原理
-      创建一个监视的实例对象
+    Vue 收集表单数据
+    https://v2.cn.vuejs.org/v2/guide/forms.html
+      若 <input type="text"> 则 v-model 收集的是 value, 用户输入的是 value
+      若 <input type="radio"> 则 v-model 收集的是 value, 且要给标签配 value
+      若 <input type="checkbox">
+        没有配置 value 则 v-model 收集的是 checked
+        配置了 v-model 初始值是非数组, 收集的是 checked
+        是数组, 收集的是 value 组成的数组 
 
-      function Observer(obj) {
-        const keys = Object.keys(obj);
-        keys.forEach((k) => {
-          Object.defineProperty(this, k, {
-            get() {
-              return obj[k];
-            },
-            set(val) {
-              进行渲染页面的工作
-            },
-          })
-        })
-      }
-    
-    Vue 监视数组的原理
-      Vue 并不会对数组每个元素生成一个 get set
-      而是监视改变数组的方法, 只有调用了方法才会重新渲染
-      https://v2.cn.vuejs.org/v2/guide/list.html#%E5%8F%98%E6%9B%B4%E6%96%B9%E6%B3%95
+    v-model 的三个修饰符:
+      1. lazy
+      2. number
+      3. trim
   -->
   <div class="app">
-    <ul>
-      <li
-        v-for="(p, i) in persons"
-        :key="p.id"
-        style="padding: 5px; font-size: 20px"
+    <form>
+      账号：<input type="text" v-model="account" /><br />
+      密码：<input type="password" v-model="password" /><br />
+      <!-- type 限制只能输入数字 v-model.number 让其作为数字而非字符串有值 -->
+      年龄：<input type="number" v-model.number="age" /><br />
+
+      性别： 男
+      <input type="radio" name="gender" v-model="gender" value="male" /> 女
+      <input type="radio" name="gender" v-model="gender" value="female" /><br />
+
+      <!-- value 用来给 hobby 收集 -->
+      爱好： <input type="checkbox" v-model="hobby" value="study" />学习
+      <input type="checkbox" v-model="hobby" value="game" />游戏
+      <input type="checkbox" v-model="hobby" value="eat" />吃饭<br />
+
+      所属校区
+      <select v-model="city">
+        <option value="">请选择校区</option>
+        <option value="beijing">北京</option>
+        <option value="shanghai">上海</option>
+        <option value="shenzhen">深圳</option></select
+      ><br />
+      其他信息：
+      <textarea v-model="other"></textarea><br />
+      <input type="checkbox" value="agree" />阅读并接受<a href="www.bing.com"
+        >《用户协议》</a
       >
-        {{ i }} -- {{ p.name }} -- {{ p.age }}
-      </li>
-      <button @click="changeFirstName">改变第一个人姓名</button>
-    </ul>
+      <button>提交</button>
+    </form>
   </div>
 </template>
 
@@ -42,23 +53,17 @@
 export default {
   data() {
     return {
-      persons: [
-        { id: 1, name: "tyz", age: 18 },
-        { id: 2, name: "tlq", age: 51 },
-        { id: 3, name: "zyh", age: 51 },
-      ],
+      account: "",
+      password: "",
+      age: 18,
+      gender: "male",
+      hobby: [],
+      city: "",
+      other: "",
+      agree: "",
     };
   },
-  methods: {
-    addGender() {
-      // 在 Vue2 中 set 用于为对象添加属性, 普通的添加非响应式的（Vue3 已经没有这个 API）
-      // this.$set(this.student, "gender", "男");
-    },
-    changeFirstName() {
-      // 直接修改元素, 页面不会重新渲染
-      this.persons.splice(0, 1, { id: 1, name: "田宇哲", age: 18 });
-    },
-  },
+  methods: {},
 };
 </script>
 
