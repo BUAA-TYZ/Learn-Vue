@@ -1,50 +1,21 @@
 <!-- html -->
 <template>
   <!-- 
-    Vue 收集表单数据
-    https://v2.cn.vuejs.org/v2/guide/forms.html
-      若 <input type="text"> 则 v-model 收集的是 value, 用户输入的是 value
-      若 <input type="radio"> 则 v-model 收集的是 value, 且要给标签配 value
-      若 <input type="checkbox">
-        没有配置 value 则 v-model 收集的是 checked
-        配置了 v-model 初始值是非数组, 收集的是 checked
-        是数组, 收集的是 value 组成的数组 
-
-    v-model 的三个修饰符:
-      1. lazy
-      2. number
-      3. trim
-  -->
+    Vue 生命周期
+      beforeCreate
+      created
+      beforeMount
+      mounted 重要 发送ajax请求 启动定时器 绑定自定义事件 订阅信息等工作
+      beforeUpdate
+      updated
+      beforeDestory 重要 清除定时器 解绑自定义事件 取消订阅信息等收尾工作
+      destoryed
+    Vue 销毁后
+      自定义事件会消失, 原生DOM事件依然有效
+      一般不在 beforeDestory 中操作数据, 即使操作了, 也不会触发更新流程
+      -->
   <div class="app">
-    <form>
-      账号：<input type="text" v-model="account" /><br />
-      密码：<input type="password" v-model="password" /><br />
-      <!-- type 限制只能输入数字 v-model.number 让其作为数字而非字符串有值 -->
-      年龄：<input type="number" v-model.number="age" /><br />
-
-      性别： 男
-      <input type="radio" name="gender" v-model="gender" value="male" /> 女
-      <input type="radio" name="gender" v-model="gender" value="female" /><br />
-
-      <!-- value 用来给 hobby 收集 -->
-      爱好： <input type="checkbox" v-model="hobby" value="study" />学习
-      <input type="checkbox" v-model="hobby" value="game" />游戏
-      <input type="checkbox" v-model="hobby" value="eat" />吃饭<br />
-
-      所属校区
-      <select v-model="city">
-        <option value="">请选择校区</option>
-        <option value="beijing">北京</option>
-        <option value="shanghai">上海</option>
-        <option value="shenzhen">深圳</option></select
-      ><br />
-      其他信息：
-      <textarea v-model="other"></textarea><br />
-      <input type="checkbox" value="agree" />阅读并接受<a href="www.bing.com"
-        >《用户协议》</a
-      >
-      <button>提交</button>
-    </form>
+    <h2 :style="{ opacity }">变化</h2>
   </div>
 </template>
 
@@ -53,17 +24,16 @@
 export default {
   data() {
     return {
-      account: "",
-      password: "",
-      age: 18,
-      gender: "male",
-      hobby: [],
-      city: "",
-      other: "",
-      agree: "",
+      opacity: 1,
     };
   },
   methods: {},
+  mounted() {
+    setInterval(() => {
+      this.opacity -= 0.01;
+      if (this.opacity <= 0) this.opacity = 1;
+    }, 16);
+  },
 };
 </script>
 
