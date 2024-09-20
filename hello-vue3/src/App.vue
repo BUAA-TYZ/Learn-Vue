@@ -1,38 +1,30 @@
 <!-- html -->
 <template>
-  <!-- 
-    Vue 生命周期
-      beforeCreate
-      created
-      beforeMount
-      mounted 重要 发送ajax请求 启动定时器 绑定自定义事件 订阅信息等工作
-      beforeUpdate
-      updated
-      beforeDestory 重要 清除定时器 解绑自定义事件 取消订阅信息等收尾工作
-      destoryed
-    Vue 销毁后
-      自定义事件会消失, 原生DOM事件依然有效
-      一般不在 beforeDestory 中操作数据, 即使操作了, 也不会触发更新流程
-      -->
   <div class="app">
-    <h2 :style="{ opacity }">变化</h2>
+    <button @click="printThis">通过 ref 拿到学校子组件的名字</button>
+    <School ref="school" />
+    <!-- 使用 v-bind 使 age 传入为数字 -->
+    <Student name="tyz" :age="18" />
   </div>
 </template>
 
 <!-- js -->
 <script>
+import School from "./components/School.vue";
+import Student from "./components/Student.vue";
+
 export default {
-  data() {
-    return {
-      opacity: 1,
-    };
+  components: {
+    School,
+    Student,
   },
-  methods: {},
-  mounted() {
-    setInterval(() => {
-      this.opacity -= 0.01;
-      if (this.opacity <= 0) this.opacity = 1;
-    }, 16);
+  data() {
+    return {};
+  },
+  methods: {
+    printThis() {
+      console.log(this.$refs.school.name);
+    },
   },
 };
 </script>
