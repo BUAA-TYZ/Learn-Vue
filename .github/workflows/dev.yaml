@@ -1,0 +1,30 @@
+name: Run Dev Environment
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  dev:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: 检出代码
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: 设置 Node.js 环境
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # 使用的 Node.js 版本，可根据需要更改
+          cache: "npm" # 缓存 npm 包以加快后续运行
+
+      # Step 3: 安装依赖
+      - name: Install Dependencies
+        run: npm install
+
+      # Step 4: 启动开发环境
+      - name: Run Development Server
+        run: npm run dev
+
+      # Step 5: 保持开发环境运行（可选）
+      - name: Keep Server Running
+        run: sleep infinity
